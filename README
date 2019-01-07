@@ -1,0 +1,71 @@
+README
+alarm.py
+Lab 6: Incident Alarm
+Allie Clifford
+7/24/2017
+Modified 1/7/2019
+
+Overview:
+alarm.py is a tool that allows the user to perform packet analysis, 
+from an existing pcap file, or live from a specified interface. It
+can be run in several modes: by default it will sniff on eth0,
+it will read in and analyze pcap files, and it will sniff real-time,
+allowing the user to be alerted of the following:
+	xmas scans
+	null scans
+	fin scans
+	http traffic
+	usernames & passwords sent in clear text
+The alert will print to the terminal the incident number, the type 
+of incident, the detected source IP, the protocol or port number, 
+and the associated payload (if any). To quit the program, one must
+enter ctrl^c
+
+Implementation and Functionality:
+This tool works by using a number of imported modules to sniff and
+analyze packets, either from a file or from a real-time interface. 
+The modules used to perform this analysis are:
+	re
+	base64
+	scapy
+	pcapy
+	argparse
+argparse allows the script to parse any commandline arguments and
+execute whatever the user has specified. By default, with no command
+line parameters provided, the tool will sniff on eth0. All packets,
+whether from a file or from real-time, are sent to an analysis function
+that determines if any alarm parameters (as mentioned in overview) are
+met, and if so, prints an alert to the terminal to indicate the type etc.
+
+To my knowledge, the tool meets all specified requirements of the 
+assignment.
+
+Collaboration:
+I consulted the scapy documentation as well as python documentation
+extensively to develop the code for this python script. I also 
+consulted various internet resources such as stackoverflow.
+
+Question: "Are the heuristics for this assignment to determine incidents
+'even that good'"
+Answer: While this tool does offer some beneficial functionality,
+it is a passive tool and therefore limited. Perhaps a better set of heuristics
+would include the option to drop and/or throttle connections to/from hosts that
+have raised incident alarms. It does nothing to prevent or detect 
+other attack types (such as ones that result in packets returned as RST's)
+and so it has a limited scope. It would be useful to include control flow to
+detect any type of scan. It would also be useful to keep a log of 
+offending IP's. This log could be used along with a function that tracks
+how many times an IP has raised any alarm,  so that after a certain number, 
+it becomes blacklisted and no incoming traffic from it will be accepted. 
+Additionally, if HTTP traffic is detected, it may be helpful to provide
+detailed information regarding the lack of encryption that comes with
+HTTP traffic. A log tracking offending IP's would be useful in identifying
+users who may need additional OpSec training if deployed in an enterprise 
+setting.  
+
+As of 1/7/2019 I have begun adding the above functionality as well as including
+functionality to detect SQLinjection and cross site scripting attemps
+
+For future development:  
+Adding all of the above mentioned functions/tracking
+
